@@ -17,6 +17,8 @@ dependencies:
   google_maps_flutter: ^2.13.1
   flutter_core:
     path: ../flutter_core
+  my_localizations:
+    path: ../my_localizations
 
 dev_dependencies:
   flutter_test:
