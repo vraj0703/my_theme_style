@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
-import 'package:flutter_core/utils/duration_utils.dart';
+import 'package:flutter_core/library.dart';
 import 'package:my_theme_style/my_theme_style.dart';
 import 'package:my_theme_style/styles/colors.dart';
 
@@ -251,7 +251,6 @@ class _Corners {
   late final double lg = 32;
 }
 
-// TODO: add, @immutable when design is solidified
 class _Sizes {
   double get maxContentWidth1 => 800;
 
