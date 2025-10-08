@@ -5,7 +5,6 @@ import 'my_theme_style_platform_interface.dart';
 
 class MyThemeStyle {
   static late LocaleLogic _localeLogic;
-  static late String _localeName;
   static late AppStyle _appStyle;
 
   static Future<void> initialize({
@@ -23,7 +22,6 @@ class MyThemeStyle {
     Map<String, dynamic> sizesMap = const {},
   }) async {
     _localeLogic = localeLogic;
-    _localeName = localeName;
     _appStyle = AppStyle(
       disableAnimations: disableAnimations,
       highContrast: highContrast,
@@ -40,7 +38,7 @@ class MyThemeStyle {
 
   static LocaleLogic get localeLogic => _localeLogic;
 
-  static String get localeName => _localeName;
+  static String get localeName => _localeLogic.strings.localeName;
 
   static AppStyle get appStyle => _appStyle;
 
