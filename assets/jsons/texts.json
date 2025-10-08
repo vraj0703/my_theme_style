@@ -1,33 +1,48 @@
 {
-  "scale": 1.0,
-  "fonts": {
-    "titleFonts": {
-      "en": {
-        "fontFamily": "Tenor"
-      }
+  "fonts": [
+    {
+      "family": "Raleway",
+      "fonts": [
+        {
+          "asset": "assets/file/path_1"
+        },
+        {
+          "asset": "assets/file/path_1",
+          "style": "italic"
+        },
+        {
+          "asset": "assets/file/path_2",
+          "weight": "500"
+        },
+        {
+          "asset": "assets/file/path_3",
+          "weight": "700"
+        }
+      ],
+      "locale": "en",
+      "fontFeatures": [
+        "kern"
+      ]
     },
-    "monoTitleFonts": {
-      "en": {
-        "fontFamily": "B612Mono"
-      }
+    {
+      "family": "B612Mono",
+      "fonts": [
+        {
+          "asset": "assets/file/path_1"
+        }
+      ],
+      "locale": "en"
     },
-    "quoteFonts": {
-      "en": {
-        "fontFamily": "Cinzel"
-      },
-      "zh": {
-        "fontFamily": "MaShanZheng"
-      }
-    },
-    "contentFonts": {
-      "en": {
-        "fontFamily": "Raleway",
-        "fontFeatures": [
-          "kern"
-        ]
-      }
+    {
+      "family": "MaShanZheng",
+      "fonts": [
+        {
+          "path": "assets/file/path_1"
+        }
+      ],
+      "locale": "zh"
     }
-  },
+  ],
   "styles": {
     "md.sys.typescale": {
       "display-large": {

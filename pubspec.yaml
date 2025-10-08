@@ -16,9 +16,11 @@ dependencies:
   plugin_platform_interface: ^2.0.2
   google_maps_flutter: ^2.13.1
   flutter_core:
-    path: ../flutter_core
+    git:
+      url: https://github.com/vraj0703/flutter_core.git
   my_localizations:
-    path: ../my_localizations
+    git:
+      url: https://github.com/vraj0703/my_localizations
 
 dev_dependencies:
   flutter_test:
