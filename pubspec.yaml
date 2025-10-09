@@ -20,7 +20,7 @@ dependencies:
       url: https://github.com/vraj0703/flutter_core.git
   my_localizations:
     git:
-      url: https://github.com/vraj0703/my_localizations
+      url: https://github.com/vraj0703/my_localizations.git
 
 dev_dependencies:
   flutter_test:
