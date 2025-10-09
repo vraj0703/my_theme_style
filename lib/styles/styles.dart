@@ -19,9 +19,10 @@ class AppStyle {
   late final Map<String, dynamic> cornersMap;
   late final Map<String, dynamic> shadowsMap;
   late final Map<String, dynamic> insetsMap;
-  late final Map<String, dynamic> textsMap;
+  late final Map<String, dynamic> textStylesMap;
   late final Map<String, dynamic> timesMap;
   late final Map<String, dynamic> sizesMap;
+  late final Map<String, dynamic> fontsMap;
 
   /// The current theme colors for the app
   late final AppColors colors = AppColors.fromJson(colorsMap);
@@ -35,7 +36,7 @@ class AppStyle {
   late final Insets insets = Insets.fromJson(insetsMap, scale: scale);
 
   /// Text styles
-  late final Texts text = Texts.fromJson(textsMap, scale: scale);
+  late final Texts text = Texts.fromJson(textStylesMap, fontsMap, scale: scale);
 
   /// Animation Durations
   late final Times times = Times.fromJson(timesMap);
@@ -51,9 +52,10 @@ class AppStyle {
     this.cornersMap = const {},
     this.shadowsMap = const {},
     this.insetsMap = const {},
-    this.textsMap = const {},
+    this.textStylesMap = const {},
     this.timesMap = const {},
     this.sizesMap = const {},
+    this.fontsMap = const {},
   }) {
     if (screenSize == null) {
       scale = 1;

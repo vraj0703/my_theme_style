@@ -16,19 +16,25 @@ class Texts {
   });
 
   factory Texts.fromJson(
-    Map<String, dynamic> json, {
+    Map<String, dynamic> textStylesMap,
+    Map<String, dynamic> fontsMap, {
     double scale = 1.0,
     bool useEmphasized = false,
   }) {
     // Parse fonts as before
     final fonts = Map<String, Map<String, dynamic>>.from(
-      json['fonts']?.map((k, v) => MapEntry(k, Map<String, dynamic>.from(v))) ??
+      fontsMap['fonts']?.map(
+            (k, v) => MapEntry(k, Map<String, dynamic>.from(v)),
+          ) ??
           {},
     );
 
     // Parse styles: each key is a group (e.g. "md.sys.typescale")
     final styles = <String, Map<String, dynamic>>{};
-    (json['styles'] as Map<String, dynamic>?)?.forEach((group, groupStyles) {
+    (textStylesMap['styles'] as Map<String, dynamic>?)?.forEach((
+      group,
+      groupStyles,
+    ) {
       styles[group] = Map<String, dynamic>.from(groupStyles);
     });
 
