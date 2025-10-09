@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 @immutable
 class AppColors {
   final Map<String, dynamic> _schemeConfigs;
+  final Map<String, dynamic> _baseColors;
 
-  const AppColors._(this._schemeConfigs);
+  const AppColors._(this._schemeConfigs, this._baseColors);
 
-  factory AppColors.fromJson(Map<String, dynamic> json) {
+  factory AppColors.fromJson(
+    Map<String, dynamic> schemeConfig,
+    Map<String, dynamic> baseColors,
+  ) {
     final defaults = {"light": {}, "dark": {}};
 
-    final config = {...defaults, ...Map<String, dynamic>.from(json)};
-    return AppColors._(config);
+    final config = {...defaults, ...Map<String, dynamic>.from(schemeConfig)};
+    return AppColors._(config, baseColors);
   }
 
   /// Get a color value from the color scheme ('light' or 'dark')
@@ -64,7 +68,7 @@ class AppColors {
   Map<String, Color> getErrorPalette(String scheme) =>
       palette(scheme, 'error_palette');
 
-  /// Example getters for common M3 color roles
+  /// getters for common M3 color roles
   Color get primaryLight => color('light', 'primary');
 
   Color get onPrimaryLight => color('light', 'on_primary');
@@ -79,11 +83,110 @@ class AppColors {
 
   Color get onPrimaryDark => color('dark', 'on_primary');
 
-  Color get primaryContainerDark => color('dark', 'primary_container');
+  Color get onPrimaryContainerLight => color('light', 'on_primary_container');
+
+  Color get secondaryLight => color('light', 'secondary');
+
+  Color get onSecondaryLight => color('light', 'on_secondary');
+
+  Color get secondaryContainerLight => color('light', 'secondary_container');
+
+  Color get onSecondaryContainerLight =>
+      color('light', 'on_secondary_container');
+
+  Color get tertiaryLight => color('light', 'tertiary');
+
+  Color get onTertiaryLight => color('light', 'on_tertiary');
+
+  Color get tertiaryContainerLight => color('light', 'tertiary_container');
+
+  Color get onTertiaryContainerLight => color('light', 'on_tertiary_container');
+
+  Color get errorLight => color('light', 'error');
+
+  Color get onErrorLight => color('light', 'on_error');
+
+  Color get errorContainerLight => color('light', 'error_container');
+
+  Color get onErrorContainerLight => color('light', 'on_error_container');
+
+  Color get onBackgroundLight => color('light', 'on_background');
+
+  Color get onSurfaceLight => color('light', 'on_surface');
+
+  Color get surfaceVariantLight => color('light', 'surface_variant');
+
+  Color get onSurfaceVariantLight => color('light', 'on_surface_variant');
+
+  Color get outlineLight => color('light', 'outline');
+
+  Color get inverseSurfaceLight => color('light', 'inverse_surface');
+
+  Color get inversePrimaryLight => color('light', 'inverse_primary');
 
   Color get backgroundDark => color('dark', 'background');
 
   Color get surfaceDark => color('dark', 'surface');
+
+  Color get primaryContainerDark => color('dark', 'primary_container');
+
+  Color get onPrimaryContainerDark => color('dark', 'on_primary_container');
+
+  Color get secondaryDark => color('dark', 'secondary');
+
+  Color get onSecondaryDark => color('dark', 'on_secondary');
+
+  Color get secondaryContainerDark => color('dark', 'secondary_container');
+
+  Color get onSecondaryContainerDark => color('dark', 'on_secondary_container');
+
+  Color get tertiaryDark => color('dark', 'tertiary');
+
+  Color get onTertiaryDark => color('dark', 'on_tertiary');
+
+  Color get tertiaryContainerDark => color('dark', 'tertiary_container');
+
+  Color get onTertiaryContainerDark => color('dark', 'on_tertiary_container');
+
+  Color get errorDark => color('dark', 'error');
+
+  Color get onErrorDark => color('dark', 'on_error');
+
+  Color get errorContainerDark => color('dark', 'error_container');
+
+  Color get onErrorContainerDark => color('dark', 'on_error_container');
+
+  Color get onBackgroundDark => color('dark', 'on_background');
+
+  Color get onSurfaceDark => color('dark', 'on_surface');
+
+  Color get surfaceVariantDark => color('dark', 'surface_variant');
+
+  Color get onSurfaceVariantDark => color('dark', 'on_surface_variant');
+
+  Color get outlineDark => color('dark', 'outline');
+
+  Color get inverseSurfaceDark => color('dark', 'inverse_surface');
+
+  Color get inversePrimaryDark => color('dark', 'inverse_primary');
+
+  Color get white => _getBaseColor('white', fallback: '#FFFFFF');
+
+  Color get offWhite => _getBaseColor('offWhite', fallback: '#F5F5F5');
+
+  Color get black => _getBaseColor('black', fallback: '#000000');
+
+  Color get red => _getBaseColor('red', fallback: '#FF0000');
+
+  Color get blue => _getBaseColor('blue', fallback: '#0000FF');
+
+  // Getters for nested grey colors
+  Color get greyLight => _getNestedColor('grey', 'light', fallback: '#E0E0E0');
+
+  Color get greyMedium =>
+      _getNestedColor('grey', 'medium', fallback: '#9E9E9E');
+
+  Color get greyDark => _getNestedColor('grey', 'dark', fallback: '#424242');
 
   /// Get a full color scheme (returns MaterialColorScheme)
   ColorScheme materialColorScheme(String scheme) {
@@ -135,4 +238,24 @@ class AppColors {
       (_schemeConfigs[scheme] != null && _schemeConfigs[scheme][key] != null)
       ? _schemeConfigs[scheme][key]
       : null;
+
+  /// Looks up a color from the top-level of the map.
+  Color _getBaseColor(String key, {required String fallback}) {
+    final value = _baseColors[key] as String? ?? fallback;
+    return _parseColor(value);
+  }
+
+  /// Looks up a color from a nested map.
+  Color _getNestedColor(
+    String mapKey,
+    String colorKey, {
+    required String fallback,
+  }) {
+    final nestedMap = _baseColors[mapKey] as Map<String, dynamic>?;
+    if (nestedMap == null) {
+      return _parseColor(fallback);
+    }
+    final value = nestedMap[colorKey] as String? ?? fallback;
+    return _parseColor(value);
+  }
 }

@@ -16,6 +16,7 @@ class AppStyle {
   late final bool disableAnimations;
   late final bool highContrast;
   late final Map<String, dynamic> colorsMap;
+  late final Map<String, dynamic> colorSchemesMap;
   late final Map<String, dynamic> cornersMap;
   late final Map<String, dynamic> shadowsMap;
   late final Map<String, dynamic> insetsMap;
@@ -25,7 +26,7 @@ class AppStyle {
   late final Map<String, dynamic> fontsMap;
 
   /// The current theme colors for the app
-  late final AppColors colors = AppColors.fromJson(colorsMap);
+  late final AppColors colors = AppColors.fromJson(colorSchemesMap, colorsMap);
 
   /// Rounded edge corner radii
   late final Corners corners = Corners.fromJson(cornersMap);
