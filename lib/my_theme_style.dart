@@ -9,7 +9,6 @@ class MyThemeStyle {
 
   static Future<void> initialize({
     required LocaleLogic localeLogic,
-    required String localeName,
     Size? screenSize,
     bool disableAnimations = false,
     bool highContrast = false,
