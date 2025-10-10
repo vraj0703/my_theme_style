@@ -41,11 +41,12 @@ class Texts {
     return Texts._(scale, fonts, styles, useEmphasized: useEmphasized);
   }
 
-  TextStyle get titleFont =>
-      _getFontForLocale(_fontConfigs['titleFonts'] ?? {});
-
   // Font getters for custom fonts
   TextStyle get btn => bodyMedium;
+
+  TextStyle get titleFont => titleMedium;
+
+  //_getFontForLocale(_fontConfigs['titleFonts'] ?? {});
 
   TextStyle get monoTitleFont =>
       _getFontForLocale(_fontConfigs['monoTitleFonts'] ?? {});
