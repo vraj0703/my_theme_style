@@ -8,12 +8,22 @@ class Texts {
   final Map<String, Map<String, dynamic>> _styleGroups;
   final bool useEmphasized;
 
-  const Texts._(
+  Texts._(
     this._scale,
     this._fontConfigs,
     this._styleGroups, {
     this.useEmphasized = false,
   });
+
+  late final _TextStyleHandler _styleHandler = _TextStyleHandler(
+    scale: _scale,
+    styleGroups: _styleGroups,
+    useEmphasized: useEmphasized,
+  );
+
+  late final _FontHandler _fontHandler = _FontHandler(
+    useEmphasized: useEmphasized,
+  );
 
   factory Texts.fromJson(
     Map<String, dynamic> textStylesMap,
@@ -21,14 +31,28 @@ class Texts {
     double scale = 1.0,
     bool useEmphasized = false,
   }) {
-    // Parse fonts as before
-    final fonts = Map<String, Map<String, dynamic>>.from(
-      fontsMap['fonts']?.map(
-            (k, v) => MapEntry(k, Map<String, dynamic>.from(v)),
-          ) ??
-          {},
-    );
+    final fontConfigs = <String, Map<String, dynamic>>{};
+    if (fontsMap['fonts'] is List) {
+      for (var fontData in (fontsMap['fonts'] as List)) {
+        if (fontData is Map<String, dynamic> &&
+            fontData.containsKey('family')) {
+          final family = fontData['family'] as String;
+          fontConfigs[family] = {
+            'family': family,
+            'locale': fontData['locale'],
+            'fontFeatures': fontData['fontFeatures'],
+            'fonts':
+                (fontData['fonts'] as List<dynamic>?)
+                    ?.map((e) => Map<String, dynamic>.from(e))
+                    .toList() ??
+                [],
+          };
+        }
+      }
+    }
 
+    // Retained for backward compatibility if needed, but new logic uses fontConfigs
+    final fonts = fontConfigs;
     // Parse styles: each key is a group (e.g. "md.sys.typescale")
     final styles = <String, Map<String, dynamic>>{};
     (textStylesMap['styles'] as Map<String, dynamic>?)?.forEach((
@@ -44,75 +68,128 @@ class Texts {
   // Font getters for custom fonts
   TextStyle get btn => bodyMedium;
 
-  TextStyle get titleFont => titleMedium;
-
-  //_getFontForLocale(_fontConfigs['titleFonts'] ?? {});
+  TextStyle get titleFont =>
+      _fontHandler.getFont(_fontConfigs['Raleway'] ?? {});
 
   TextStyle get monoTitleFont =>
-      _getFontForLocale(_fontConfigs['monoTitleFonts'] ?? {});
+      _fontHandler.getFont(_fontConfigs['B612Mono'] ?? {});
 
-  TextStyle get quoteFont =>
-      _getFontForLocale(_fontConfigs['quoteFonts'] ?? {});
-
-  TextStyle get contentFont =>
-      _getFontForLocale(_fontConfigs['contentFonts'] ?? {});
-
-  /// Universal token getter, choose emphasized group based on configuration or parameter
-  TextStyle token(String name, {bool? emphasized}) {
-    final useEm = emphasized ?? useEmphasized;
-    final group = useEm ? 'md.sys.typescale.emphasized' : 'md.sys.typescale';
-    final groupMap = _styleGroups[group];
-    if (groupMap == null) {
-      throw Exception('Style group $group not found');
-    }
-    final styleConfig = groupMap[name];
-    if (styleConfig == null) {
-      throw Exception('Style $name not found in group $group');
-    }
-    return _createFontFromToken(styleConfig);
-  }
+  TextStyle get chinaFont =>
+      _fontHandler.getFont(_fontConfigs['MaShanZheng'] ?? {});
 
   /// Returns a Flutter [TextTheme] using Material 3 tokens
   /// If [emphasized] is true (or [useEmphasized] is set), uses emphasized variants
   TextTheme textTheme({bool? emphasized}) {
     final useEm = emphasized ?? useEmphasized;
     return TextTheme(
-      displayLarge: token('display-large', emphasized: useEm),
-      displayMedium: token('display-medium', emphasized: useEm),
-      displaySmall: token('display-small', emphasized: useEm),
-      headlineLarge: token('headline-large', emphasized: useEm),
-      headlineMedium: token('headline-medium', emphasized: useEm),
-      headlineSmall: token('headline-small', emphasized: useEm),
-      titleLarge: token('title-large', emphasized: useEm),
-      titleMedium: token('title-medium', emphasized: useEm),
-      titleSmall: token('title-small', emphasized: useEm),
-      bodyLarge: token('body-large', emphasized: useEm),
-      bodyMedium: token('body-medium', emphasized: useEm),
-      bodySmall: token('body-small', emphasized: useEm),
-      labelLarge: token('label-large', emphasized: useEm),
-      labelMedium: token('label-medium', emphasized: useEm),
-      labelSmall: token('label-small', emphasized: useEm),
+      displayLarge: _styleHandler.token('display-large', emphasized: useEm),
+      displayMedium: _styleHandler.token('display-medium', emphasized: useEm),
+      displaySmall: _styleHandler.token('display-small', emphasized: useEm),
+      headlineLarge: _styleHandler.token('headline-large', emphasized: useEm),
+      headlineMedium: _styleHandler.token('headline-medium', emphasized: useEm),
+      headlineSmall: _styleHandler.token('headline-small', emphasized: useEm),
+      titleLarge: _styleHandler.token('title-large', emphasized: useEm),
+      titleMedium: _styleHandler.token('title-medium', emphasized: useEm),
+      titleSmall: _styleHandler.token('title-small', emphasized: useEm),
+      bodyLarge: _styleHandler.token('body-large', emphasized: useEm),
+      bodyMedium: _styleHandler.token('body-medium', emphasized: useEm),
+      bodySmall: _styleHandler.token('body-small', emphasized: useEm),
+      labelLarge: _styleHandler.token('label-large', emphasized: useEm),
+      labelMedium: _styleHandler.token('label-medium', emphasized: useEm),
+      labelSmall: _styleHandler.token('label-small', emphasized: useEm),
     );
   }
 
-  TextStyle _getFontForLocale(Map<String, dynamic> fonts) {
-    String locale = MyThemeStyle.localeLogic.isLoaded
-        ? MyThemeStyle.localeName
-        : fonts.keys.first;
-    final fontConfig = fonts[locale] ?? fonts.values.first;
-    return _textStyleFromConfig(fontConfig);
-  }
+  // Shorthand for common Material 3 styles (normal)
+  TextStyle get displayLarge => _styleHandler.token('display-large');
 
-  TextStyle _textStyleFromConfig(Map<String, dynamic> config) {
-    return TextStyle(
-      fontFamily: config['fontFamily'],
-      fontFeatures: (config['fontFeatures'] is List)
-          ? (config['fontFeatures'] as List)
-                .map((f) => FontFeature.enable(f.toString()))
-                .toList()
-          : null,
-    );
-  }
+  TextStyle get displayMedium => _styleHandler.token('display-medium');
+
+  TextStyle get displaySmall => _styleHandler.token('display-small');
+
+  TextStyle get headlineLarge => _styleHandler.token('headline-large');
+
+  TextStyle get headlineMedium => _styleHandler.token('headline-medium');
+
+  TextStyle get headlineSmall => _styleHandler.token('headline-small');
+
+  TextStyle get titleLarge => _styleHandler.token('title-large');
+
+  TextStyle get titleMedium => _styleHandler.token('title-medium');
+
+  TextStyle get titleSmall => _styleHandler.token('title-small');
+
+  TextStyle get labelLarge => _styleHandler.token('label-large');
+
+  TextStyle get labelMedium => _styleHandler.token('label-medium');
+
+  TextStyle get labelSmall => _styleHandler.token('label-small');
+
+  TextStyle get bodyLarge => _styleHandler.token('body-large');
+
+  TextStyle get bodyMedium => _styleHandler.token('body-medium');
+
+  TextStyle get bodySmall => _styleHandler.token('body-small');
+
+  // Emphasized variants, always use emphasized group
+  TextStyle get displayLargeEmphasized =>
+      _styleHandler.token('display-large', emphasized: true);
+
+  TextStyle get displayMediumEmphasized =>
+      _styleHandler.token('display-medium', emphasized: true);
+
+  TextStyle get displaySmallEmphasized =>
+      _styleHandler.token('display-small', emphasized: true);
+
+  TextStyle get headlineLargeEmphasized =>
+      _styleHandler.token('headline-large', emphasized: true);
+
+  TextStyle get headlineMediumEmphasized =>
+      _styleHandler.token('headline-medium', emphasized: true);
+
+  TextStyle get headlineSmallEmphasized =>
+      _styleHandler.token('headline-small', emphasized: true);
+
+  TextStyle get titleLargeEmphasized =>
+      _styleHandler.token('title-large', emphasized: true);
+
+  TextStyle get titleMediumEmphasized =>
+      _styleHandler.token('title-medium', emphasized: true);
+
+  TextStyle get titleSmallEmphasized =>
+      _styleHandler.token('title-small', emphasized: true);
+
+  TextStyle get labelLargeEmphasized =>
+      _styleHandler.token('label-large', emphasized: true);
+
+  TextStyle get labelMediumEmphasized =>
+      _styleHandler.token('label-medium', emphasized: true);
+
+  TextStyle get labelSmallEmphasized =>
+      _styleHandler.token('label-small', emphasized: true);
+
+  TextStyle get bodyLargeEmphasized =>
+      _styleHandler.token('body-large', emphasized: true);
+
+  TextStyle get bodyMediumEmphasized =>
+      _styleHandler.token('body-medium', emphasized: true);
+
+  TextStyle get bodySmallEmphasized =>
+      _styleHandler.token('body-small', emphasized: true);
+}
+
+@immutable
+class _TextStyleHandler {
+  final Map<String, Map<String, dynamic>> _styleGroups;
+  final double _scale;
+  final bool useEmphasized;
+
+  const _TextStyleHandler({
+    required double scale,
+    required Map<String, Map<String, dynamic>> styleGroups,
+    required this.useEmphasized,
+  }) : _styleGroups = styleGroups,
+       _scale = scale;
 
   TextStyle _createFontFromToken(Map<String, dynamic> config) {
     double sizePx = (config['fontSize'] as num).toDouble() * _scale;
@@ -159,73 +236,44 @@ class Texts {
     );
   }
 
-  // Shorthand for common Material 3 styles (normal)
-  TextStyle get displayLarge => token('display-large');
+  /// Universal _styleHandler.token getter, choose emphasized group based on configuration or parameter
+  TextStyle token(String name, {bool? emphasized}) {
+    final useEm = emphasized ?? useEmphasized;
+    final group = useEm ? 'md.sys.typescale.emphasized' : 'md.sys.typescale';
+    final groupMap = _styleGroups[group];
+    if (groupMap == null) {
+      throw Exception('Style group $group not found');
+    }
+    final styleConfig = groupMap[name];
+    if (styleConfig == null) {
+      throw Exception('Style $name not found in group $group');
+    }
+    return _createFontFromToken(styleConfig);
+  }
+}
 
-  TextStyle get displayMedium => token('display-medium');
+@immutable
+class _FontHandler {
+  final bool useEmphasized;
 
-  TextStyle get displaySmall => token('display-small');
+  const _FontHandler({required this.useEmphasized});
 
-  TextStyle get headlineLarge => token('headline-large');
+  TextStyle getFont(Map<String, dynamic> fonts) {
+    String locale = MyThemeStyle.localeLogic.isLoaded
+        ? MyThemeStyle.localeName
+        : fonts.keys.first;
+    final fontConfig = fonts[locale] ?? fonts.values.first;
+    return _textStyleFromConfig(fontConfig);
+  }
 
-  TextStyle get headlineMedium => token('headline-medium');
-
-  TextStyle get headlineSmall => token('headline-small');
-
-  TextStyle get titleLarge => token('title-large');
-
-  TextStyle get titleMedium => token('title-medium');
-
-  TextStyle get titleSmall => token('title-small');
-
-  TextStyle get labelLarge => token('label-large');
-
-  TextStyle get labelMedium => token('label-medium');
-
-  TextStyle get labelSmall => token('label-small');
-
-  TextStyle get bodyLarge => token('body-large');
-
-  TextStyle get bodyMedium => token('body-medium');
-
-  TextStyle get bodySmall => token('body-small');
-
-  // Emphasized variants, always use emphasized group
-  TextStyle get displayLargeEmphasized =>
-      token('display-large', emphasized: true);
-
-  TextStyle get displayMediumEmphasized =>
-      token('display-medium', emphasized: true);
-
-  TextStyle get displaySmallEmphasized =>
-      token('display-small', emphasized: true);
-
-  TextStyle get headlineLargeEmphasized =>
-      token('headline-large', emphasized: true);
-
-  TextStyle get headlineMediumEmphasized =>
-      token('headline-medium', emphasized: true);
-
-  TextStyle get headlineSmallEmphasized =>
-      token('headline-small', emphasized: true);
-
-  TextStyle get titleLargeEmphasized => token('title-large', emphasized: true);
-
-  TextStyle get titleMediumEmphasized =>
-      token('title-medium', emphasized: true);
-
-  TextStyle get titleSmallEmphasized => token('title-small', emphasized: true);
-
-  TextStyle get labelLargeEmphasized => token('label-large', emphasized: true);
-
-  TextStyle get labelMediumEmphasized =>
-      token('label-medium', emphasized: true);
-
-  TextStyle get labelSmallEmphasized => token('label-small', emphasized: true);
-
-  TextStyle get bodyLargeEmphasized => token('body-large', emphasized: true);
-
-  TextStyle get bodyMediumEmphasized => token('body-medium', emphasized: true);
-
-  TextStyle get bodySmallEmphasized => token('body-small', emphasized: true);
+  TextStyle _textStyleFromConfig(Map<String, dynamic> config) {
+    return TextStyle(
+      fontFamily: config['fontFamily'],
+      fontFeatures: (config['fontFeatures'] is List)
+          ? (config['fontFeatures'] as List)
+                .map((f) => FontFeature.enable(f.toString()))
+                .toList()
+          : null,
+    );
+  }
 }

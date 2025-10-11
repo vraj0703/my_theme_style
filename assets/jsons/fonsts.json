@@ -1,0 +1,46 @@
+{
+  "fonts": [
+    {
+      "family": "Raleway",
+      "fonts": [
+        {
+          "asset": "assets/file/path_1"
+        },
+        {
+          "asset": "assets/file/path_1",
+          "style": "italic"
+        },
+        {
+          "asset": "assets/file/path_2",
+          "weight": "500"
+        },
+        {
+          "asset": "assets/file/path_3",
+          "weight": "700"
+        }
+      ],
+      "locale": "en",
+      "fontFeatures": [
+        "kern"
+      ]
+    },
+    {
+      "family": "B612Mono",
+      "fonts": [
+        {
+          "asset": "assets/file/path_1"
+        }
+      ],
+      "locale": "en"
+    },
+    {
+      "family": "MaShanZheng",
+      "fonts": [
+        {
+          "path": "assets/file/path_1"
+        }
+      ],
+      "locale": "zh"
+    }
+  ]
+}
