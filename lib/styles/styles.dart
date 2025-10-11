@@ -50,6 +50,7 @@ class AppStyle {
     this.disableAnimations = false,
     this.highContrast = false,
     this.colorsMap = const {},
+    this.colorSchemesMap = const {},
     this.cornersMap = const {},
     this.shadowsMap = const {},
     this.insetsMap = const {},
