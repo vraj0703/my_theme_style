@@ -4,11 +4,11 @@ import 'package:my_theme_style/styles/styles.dart';
 import 'my_theme_style_platform_interface.dart';
 
 class MyThemeStyle {
-  static late LocaleLogic _localeLogic;
+  static late MyLocalizations _localeLogic;
   static late AppStyle _appStyle;
 
   static Future<void> initialize({
-    required LocaleLogic localeLogic,
+    required MyLocalizations localeLogic,
     Size? screenSize,
     bool disableAnimations = false,
     bool highContrast = false,
@@ -39,7 +39,7 @@ class MyThemeStyle {
     );
   }
 
-  static LocaleLogic get localeLogic => _localeLogic;
+  static MyLocalizations get localeLogic => _localeLogic;
 
   static String get localeName => _localeLogic.strings.localeName;
 
