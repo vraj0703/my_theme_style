@@ -6,6 +6,7 @@ import 'package:my_theme_style/library.dart';
 import 'package:my_theme_style/my_theme_style.dart';
 
 void main() {
+  print('MAIN STARTED');
   runApp(const AppBootstrapper());
 }
 
@@ -28,36 +29,59 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
   }
 
   Future<void> _initApp() async {
-    // Load JSON configs
-    final colorsMap = await _loadJson('assets/jsons/app_colors.json');
-    final textsMap = await _loadJson('assets/jsons/texts.json');
-    final shadowsMap = await _loadJson('assets/jsons/shadows.json');
-    final cornersMap = await _loadJson('assets/jsons/corners.json');
-    final durationMap = await _loadJson('assets/jsons/duration.json');
-    final insetsMap = await _loadJson('assets/jsons/insets.json');
-    final sizesMap = await _loadJson('assets/jsons/sizes.json');
-    final iconsMap = await _loadJson('assets/jsons/icons.json');
+    try {
+      print('Initializing app...');
+      // Load JSON configs from the package
+      print('Loading assets...');
+      final colorsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/app_colors.json',
+      );
+      final textsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/texts.json',
+      );
+      final shadowsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/shadows.json',
+      );
+      final cornersMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/corners.json',
+      );
+      final durationMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/duration.json',
+      );
+      final insetsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/insets.json',
+      );
+      final sizesMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/sizes.json',
+      );
+      final iconsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/icons.json',
+      );
+      print('Assets loaded.');
 
-    // Initialize MyLocalizations
-    // MyLocalizations is optional now. We skip it for the example app to avoid dependency issues.
-    // final localeLogic = ...
+      print('Initializing MyThemeStyle...');
+      await MyThemeStyle.initialize(
+        localeName: _currentLocale,
+        colorsMap: colorsMap,
+        textStylesMap: textsMap,
+        shadowsMap: shadowsMap,
+        cornersMap: cornersMap,
+        timesMap: durationMap,
+        insetsMap: insetsMap,
+        sizesMap: sizesMap,
+        fontsMap: {}, // Pass empty map if fonts.json is not loaded
+        iconsMap: iconsMap,
+      );
+      print('MyThemeStyle initialized.');
 
-    await MyThemeStyle.initialize(
-      // localeLogic: localeLogic,
-      colorsMap: colorsMap,
-      textStylesMap: textsMap,
-      shadowsMap: shadowsMap,
-      cornersMap: cornersMap,
-      timesMap: durationMap,
-      insetsMap: insetsMap,
-      sizesMap: sizesMap,
-      iconsMap: iconsMap,
-    );
-
-    if (mounted) {
-      setState(() {
-        _isInitialized = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isInitialized = true;
+        });
+      }
+    } catch (e, stack) {
+      print('Error initializing app: $e');
+      print(stack.toString());
     }
   }
 
@@ -72,6 +96,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
   void _toggleTheme() {
     setState(() {
       _themeMode = _themeMode == 'light' ? 'dark' : 'light';
+      MyThemeStyle.setTheme(_themeMode);
     });
   }
 
@@ -80,7 +105,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
       final String response = await rootBundle.loadString(path);
       return json.decode(response);
     } catch (e) {
-      debugPrint('Error loading $path: $e');
+      print('Error loading $path: $e');
       return {};
     }
   }
@@ -197,6 +222,10 @@ class _ColorsShowcase extends StatelessWidget {
         _ColorBox(name: 'Error', color: c('error')),
         _ColorBox(name: 'Surface', color: c('surface')),
         _ColorBox(name: 'Background', color: c('background')),
+        _ColorBox(
+          name: 'Brand',
+          color: $style.colors.custom('brandColor').color('orange'),
+        ),
       ],
     );
   }

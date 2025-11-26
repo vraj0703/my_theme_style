@@ -1,19 +1,26 @@
 import 'dart:ui';
-import 'package:my_localizations/library.dart';
 import 'package:my_theme_style/styles/styles.dart';
 import 'my_theme_style_platform_interface.dart';
 
 class MyThemeStyle {
-  static MyLocalizations? _localeLogic;
+  static String? _localeName;
   static AppStyle? _appStyle;
+  static String _currentTheme = 'light';
+
+  /// Get the current active theme mode ('light' or 'dark')
+  static String get currentTheme => _currentTheme;
+
+  /// Update the current theme mode
+  static void setTheme(String theme) {
+    _currentTheme = theme;
+  }
 
   static Future<void> initialize({
-    MyLocalizations? localeLogic,
+    String? localeName,
     Size? screenSize,
     bool disableAnimations = false,
     bool highContrast = false,
     Map<String, dynamic> colorsMap = const {},
-    Map<String, dynamic> colorSchemesMap = const {},
     Map<String, dynamic> cornersMap = const {},
     Map<String, dynamic> shadowsMap = const {},
     Map<String, dynamic> insetsMap = const {},
@@ -23,13 +30,12 @@ class MyThemeStyle {
     Map<String, dynamic> sizesMap = const {},
     Map<String, dynamic> iconsMap = const {},
   }) async {
-    _localeLogic = localeLogic;
+    _localeName = localeName;
     _appStyle = AppStyle(
       disableAnimations: disableAnimations,
       highContrast: highContrast,
       screenSize: screenSize,
       colorsMap: colorsMap,
-      colorSchemesMap: colorSchemesMap,
       cornersMap: cornersMap,
       shadowsMap: shadowsMap,
       insetsMap: insetsMap,
@@ -41,17 +47,14 @@ class MyThemeStyle {
     );
   }
 
-  static MyLocalizations get localeLogic {
-    if (_localeLogic == null) {
-      throw Exception('MyLocalizations not initialized.');
+  static String get localeName {
+    if (_localeName == null) {
+      throw Exception('LocaleName not initialized.');
     }
-    return _localeLogic!;
+    return _localeName!;
   }
 
   static bool get isInitialized => _appStyle != null;
-  static bool get hasLocaleLogic => _localeLogic != null;
-
-  static String get localeName => localeLogic.strings.localeName;
 
   static AppStyle get appStyle {
     if (_appStyle == null) {

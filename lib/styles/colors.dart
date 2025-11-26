@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:my_theme_style/styles/custom_color_group.dart';
 
 @immutable
 class AppColors {
   final Map<String, dynamic> _schemeConfigs;
   final Map<String, dynamic> _baseColors;
+  final Map<String, dynamic> _customConfigs;
 
-  const AppColors._(this._schemeConfigs, this._baseColors);
+  const AppColors._(this._schemeConfigs, this._baseColors, this._customConfigs);
 
-  factory AppColors.fromJson(
-    Map<String, dynamic> schemeConfig,
-    Map<String, dynamic> baseColors,
-  ) {
-    final schemes = schemeConfig['schemes'] ?? schemeConfig;
-    final config = Map<String, dynamic>.from(schemes as Map);
-    final base = baseColors['base'] ?? baseColors;
-    return AppColors._(config, base);
+  factory AppColors.fromJson(Map<String, dynamic> data) {
+    final config = Map<String, dynamic>.from(data as Map);
+    final schemes = data['schemes'] ?? {};
+    final base = data['base'] ?? {};
+    final custom = data['custom'] ?? {};
+    return AppColors._(schemes, base, custom);
+  }
+
+  /// Get a custom color group by name
+  CustomColorGroup custom(String groupName) {
+    final groupConfig = _customConfigs[groupName];
+    if (groupConfig == null) {
+      throw Exception('Custom color group "$groupName" not found.');
+    }
+    return CustomColorGroup(groupConfig);
   }
 
   /// Get a color value from the color scheme ('light' or 'dark')
   Color color(String scheme, String key, {Color? fallback}) {
     final value = _get(scheme, key);
+    // print('DEBUG: scheme=$scheme, key=$key, value=$value');
     if (value is String) return _parseColor(value);
     if (fallback != null) return fallback;
     // Return transparent or throw? Throwing helps debug.
@@ -43,79 +53,131 @@ class AppColors {
   // --- Material 3 Roles ---
 
   Color get primaryLight => color('light', 'primary');
+
   Color get onPrimaryLight => color('light', 'onPrimary');
+
   Color get primaryContainerLight => color('light', 'primaryContainer');
+
   Color get onPrimaryContainerLight => color('light', 'onPrimaryContainer');
 
   Color get secondaryLight => color('light', 'secondary');
+
   Color get onSecondaryLight => color('light', 'onSecondary');
+
   Color get secondaryContainerLight => color('light', 'secondaryContainer');
+
   Color get onSecondaryContainerLight => color('light', 'onSecondaryContainer');
 
   Color get tertiaryLight => color('light', 'tertiary');
+
   Color get onTertiaryLight => color('light', 'onTertiary');
+
   Color get tertiaryContainerLight => color('light', 'tertiaryContainer');
+
   Color get onTertiaryContainerLight => color('light', 'onTertiaryContainer');
 
   Color get errorLight => color('light', 'error');
+
   Color get onErrorLight => color('light', 'onError');
+
   Color get errorContainerLight => color('light', 'errorContainer');
+
   Color get onErrorContainerLight => color('light', 'onErrorContainer');
 
   Color get backgroundLight => color('light', 'background');
+
   Color get onBackgroundLight => color('light', 'onBackground');
+
   Color get surfaceLight => color('light', 'surface');
+
   Color get onSurfaceLight => color('light', 'onSurface');
+
   Color get surfaceVariantLight => color('light', 'surfaceVariant');
+
   Color get onSurfaceVariantLight => color('light', 'onSurfaceVariant');
+
   Color get outlineLight => color('light', 'outline');
+
   Color get outlineVariantLight => color('light', 'outlineVariant');
+
   Color get shadowLight => color('light', 'shadow');
+
   Color get scrimLight => color('light', 'scrim');
+
   Color get inverseSurfaceLight => color('light', 'inverseSurface');
+
   Color get inverseOnSurfaceLight => color('light', 'inverseOnSurface');
+
   Color get inversePrimaryLight => color('light', 'inversePrimary');
+
   Color get surfaceTintLight => color('light', 'surfaceTint');
 
   // Dark
   Color get primaryDark => color('dark', 'primary');
+
   Color get onPrimaryDark => color('dark', 'onPrimary');
+
   Color get primaryContainerDark => color('dark', 'primaryContainer');
+
   Color get onPrimaryContainerDark => color('dark', 'onPrimaryContainer');
 
   Color get secondaryDark => color('dark', 'secondary');
+
   Color get onSecondaryDark => color('dark', 'onSecondary');
+
   Color get secondaryContainerDark => color('dark', 'secondaryContainer');
+
   Color get onSecondaryContainerDark => color('dark', 'onSecondaryContainer');
 
   Color get tertiaryDark => color('dark', 'tertiary');
+
   Color get onTertiaryDark => color('dark', 'onTertiary');
+
   Color get tertiaryContainerDark => color('dark', 'tertiaryContainer');
+
   Color get onTertiaryContainerDark => color('dark', 'onTertiaryContainer');
 
   Color get errorDark => color('dark', 'error');
+
   Color get onErrorDark => color('dark', 'onError');
+
   Color get errorContainerDark => color('dark', 'errorContainer');
+
   Color get onErrorContainerDark => color('dark', 'onErrorContainer');
 
   Color get backgroundDark => color('dark', 'background');
+
   Color get onBackgroundDark => color('dark', 'onBackground');
+
   Color get surfaceDark => color('dark', 'surface');
+
   Color get onSurfaceDark => color('dark', 'onSurface');
+
   Color get surfaceVariantDark => color('dark', 'surfaceVariant');
+
   Color get onSurfaceVariantDark => color('dark', 'onSurfaceVariant');
+
   Color get outlineDark => color('dark', 'outline');
+
   Color get outlineVariantDark => color('dark', 'outlineVariant');
+
   Color get shadowDark => color('dark', 'shadow');
+
   Color get scrimDark => color('dark', 'scrim');
+
   Color get inverseSurfaceDark => color('dark', 'inverseSurface');
+
   Color get inverseOnSurfaceDark => color('dark', 'inverseOnSurface');
+
   Color get inversePrimaryDark => color('dark', 'inversePrimary');
+
   Color get surfaceTintDark => color('dark', 'surfaceTint');
 
   // Base Colors
   Color get white => _getBaseColor('white', fallback: '#FFFFFF');
+
   Color get black => _getBaseColor('black', fallback: '#000000');
+
   Color get transparent => _getBaseColor('transparent', fallback: '#00000000');
 
   /// Get a full color scheme (returns MaterialColorScheme)

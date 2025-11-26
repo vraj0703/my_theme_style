@@ -220,10 +220,7 @@ class _FontHandler {
   TextStyle getFont(Map<String, Map<String, dynamic>> fonts) {
     if (fonts.isEmpty) return const TextStyle();
 
-    String locale =
-        (MyThemeStyle.isInitialized &&
-            MyThemeStyle.hasLocaleLogic &&
-            MyThemeStyle.localeLogic.isLoaded)
+    String locale = MyThemeStyle.isInitialized
         ? MyThemeStyle.localeName
         : 'default';
 

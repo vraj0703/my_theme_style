@@ -7,19 +7,16 @@ class Sizes {
   const Sizes._(this._sizeConfigs);
 
   factory Sizes.fromJson(Map<String, dynamic> json) {
-    // Defaults for all sizes
+    // Start with default values.
     final defaults = {
       'icon': {'sm': 18.0, 'md': 24.0, 'lg': 32.0, 'xl': 48.0},
       'border': {'sm': 1.0, 'md': 2.0, 'lg': 4.0},
     };
 
-    // Merge defaults and config
-    // Note: Deep merge might be better but for now simple merge
-    final config = {...defaults};
-    if (json['icon'] != null) config['icon'] = json['icon'];
-    if (json['border'] != null) config['border'] = json['border'];
+    // Deep merge the JSON config over the defaults.
+    final mergedConfig = deepMerge(defaults, json);
 
-    return Sizes._(config);
+    return Sizes._(mergedConfig);
   }
 
   double get iconSm => _getNested('icon', 'sm');
@@ -46,4 +43,23 @@ class Sizes {
     if (value is num) return value.toDouble();
     throw Exception('Size key "$key" not found or is not a number');
   }
+}
+
+/// Helper to deep merge two maps. `b` has precedence over `a`.
+Map<String, dynamic> deepMerge(
+    Map<String, dynamic> a, Map<String, dynamic> b) {
+  var result = Map<String, dynamic>.from(a);
+  b.forEach((key, bValue) {
+    if (a.containsKey(key)) {
+      final aValue = a[key];
+      if (aValue is Map<String, dynamic> && bValue is Map<String, dynamic>) {
+        result[key] = deepMerge(aValue, bValue);
+      } else {
+        result[key] = bValue;
+      }
+    } else {
+      result[key] = bValue;
+    }
+  });
+  return result;
 }

@@ -17,9 +17,7 @@ dependencies:
   flutter_core:
     git:
       url: https://github.com/vraj0703/flutter_core.git
-  my_localizations:
-    git:
-      url: https://github.com/vraj0703/my_localizations.git
+
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +56,8 @@ flutter:
         pluginClass: MyThemeStyleWeb
         fileName: my_theme_style_web.dart
 
+  assets:
+    - assets/jsons/
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

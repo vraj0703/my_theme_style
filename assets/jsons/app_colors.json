@@ -69,5 +69,17 @@
     "white": "#FFFFFF",
     "black": "#000000",
     "transparent": "#00000000"
+  },
+  "custom": {
+    "brandColor": {
+      "orange": {
+        "light": "#FF9800",
+        "dark": "#FFB74D"
+      },
+      "onOrange": {
+        "light": "#000000",
+        "dark": "#000000"
+      }
+    }
   }
 }

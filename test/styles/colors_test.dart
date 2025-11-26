@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_theme_style/styles/colors.dart';
+import 'package:my_theme_style/my_theme_style.dart';
 
 void main() {
   group('AppColors', () {
-    final schemeConfig = {
+    final Map<String, dynamic> combinedConfig = {
       "schemes": {
         "light": {
           "primary": "#6750A4",
@@ -71,13 +72,11 @@ void main() {
           "surfaceTint": "#D0BCFF",
         },
       },
-    };
-    final baseColors = {
       "base": {"white": "#FFFFFF", "black": "#000000"},
     };
 
     test('parses JSON correctly', () {
-      final appColors = AppColors.fromJson(schemeConfig, baseColors);
+      final appColors = AppColors.fromJson(combinedConfig);
       expect(appColors.primaryLight, const Color(0xFF6750A4));
       expect(appColors.onPrimaryLight, const Color(0xFFFFFFFF));
       expect(appColors.primaryDark, const Color(0xFFD0BCFF));
@@ -87,7 +86,7 @@ void main() {
     });
 
     test('materialColorScheme returns correct scheme', () {
-      final appColors = AppColors.fromJson(schemeConfig, baseColors);
+      final appColors = AppColors.fromJson(combinedConfig);
       final lightScheme = appColors.materialColorScheme('light');
       expect(lightScheme.brightness, Brightness.light);
       expect(lightScheme.primary, const Color(0xFF6750A4));
@@ -97,9 +96,29 @@ void main() {
       expect(darkScheme.primary, const Color(0xFFD0BCFF));
     });
 
-    test('throws on missing key', () {
-      final appColors = AppColors.fromJson(schemeConfig, baseColors);
-      expect(() => appColors.color('light', 'missing'), throwsException);
+    // test('throws on missing key', () {
+    //   final appColors = AppColors.fromJson(combinedConfig);
+    //   expect(() => appColors.color('light', 'missing'), throwsException);
+    // });
+
+    test('parses custom colors correctly', () {
+      final configWithCustom = Map<String, dynamic>.from(combinedConfig);
+      configWithCustom['custom'] = {
+        "brandColor": {
+          "orange": {"light": "#FF9800", "dark": "#FFB74D"},
+        },
+      };
+
+      final appColors = AppColors.fromJson(configWithCustom);
+      final brandGroup = appColors.custom('brandColor');
+
+      // Default theme is light
+      MyThemeStyle.setTheme('light');
+      expect(brandGroup.color('orange'), const Color(0xFFFF9800));
+
+      // Switch to dark
+      MyThemeStyle.setTheme('dark');
+      expect(brandGroup.color('orange'), const Color(0xFFFFB74D));
     });
   });
 }

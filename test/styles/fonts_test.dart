@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_theme_style/styles/texts.dart';
+import 'package:my_theme_style/my_theme_style.dart';
 
 void main() {
   group('Texts Custom Fonts', () {
@@ -74,6 +75,18 @@ void main() {
       // Default fallback should hit 'en'
       expect(style.fontFeatures, isNotNull);
       expect(style.fontFeatures!.first.feature, 'smcp');
+    });
+
+    test('resolves font features based on initialized locale (zh)', () async {
+      // Initialize MyThemeStyle with 'zh'
+      await MyThemeStyle.initialize(localeName: 'zh');
+
+      final texts = Texts.fromJson(textStylesMap, fontsMapFeatures);
+      final style = texts.bodyMedium;
+
+      // Should hit 'zh' config
+      expect(style.fontFeatures, isNotNull);
+      expect(style.fontFeatures!.first.feature, 'tnum');
     });
   });
 }
