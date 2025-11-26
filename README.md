@@ -32,6 +32,8 @@ dependencies:
     -   `duration.json`
     -   `insets.json`
     -   `sizes.json`
+    -   `gradients.json`
+    -   `fonts.json`
 
 2.  **Update pubspec.yaml**:
 
@@ -85,6 +87,9 @@ BorderRadius.circular($corners.medium);
 
 // Shadows
 BoxShadow(boxShadow: $shadows.level2);
+
+// Gradients
+Container(decoration: BoxDecoration(gradient: $gradients.primary));
 ```
 
 ## Configuration Guide
@@ -97,7 +102,13 @@ Define `schemes` (light/dark) and `base` colors.
     "light": { "primary": "#6750A4", ... },
     "dark": { "primary": "#D0BCFF", ... }
   },
-  "base": { "white": "#FFFFFF", ... }
+  "base": { "white": "#FFFFFF", ... },
+  "custom": {
+    "brandColor": {
+      "light": "#FF5722",
+      "dark": "#FF8A65"
+    }
+  }
 }
 ```
 
@@ -120,6 +131,45 @@ Map logical names to Material icons.
   "icons": {
     "back": "arrow_back",
     "home": "home"
+  }
+}
+```
+
+
+
+### Gradients (`gradients.json`)
+Define linear, radial, or sweep gradients. Supports theme-aware definitions.
+```json
+{
+  "primary": {
+    "light": {
+      "type": "linear",
+      "colors": [
+        {"color": "#6750A4", "stop": 0.0},
+        {"color": "#EADDFF", "stop": 1.0}
+      ],
+      "begin": "topLeft",
+      "end": "bottomRight"
+    },
+    "dark": { ... }
+  },
+  "rainbow": {
+    "type": "linear",
+    "colors": [
+      {"color": "#FF0000", "stop": 0.0},
+      {"color": "#0000FF", "stop": 1.0}
+    ]
+  }
+}
+```
+
+### Custom Fonts (`fonts.json`)
+Map logical font names to font families.
+```json
+{
+  "fonts": {
+    "titleFont": "Raleway",
+    "bodyFont": "Roboto"
   }
 }
 ```
