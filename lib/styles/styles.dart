@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_theme_style/styles/colors.dart';
+import 'colors.dart';
 
 import 'corners.dart';
 import 'insets.dart';
@@ -7,6 +7,7 @@ import 'shadows.dart';
 import 'sizes.dart';
 import 'texts.dart';
 import 'times.dart';
+import 'icons.dart';
 
 export 'colors.dart';
 
@@ -24,6 +25,7 @@ class AppStyle {
   late final Map<String, dynamic> timesMap;
   late final Map<String, dynamic> sizesMap;
   late final Map<String, dynamic> fontsMap;
+  late final Map<String, dynamic> iconsMap;
 
   /// The current theme colors for the app
   late final AppColors colors = AppColors.fromJson(colorSchemesMap, colorsMap);
@@ -45,6 +47,9 @@ class AppStyle {
   /// Shared sizes
   late final Sizes sizes = Sizes.fromJson(sizesMap);
 
+  /// App Icons
+  late final AppIcons icons = AppIcons.fromJson(iconsMap);
+
   AppStyle({
     Size? screenSize,
     this.disableAnimations = false,
@@ -58,6 +63,7 @@ class AppStyle {
     this.timesMap = const {},
     this.sizesMap = const {},
     this.fontsMap = const {},
+    this.iconsMap = const {},
   }) {
     if (screenSize == null) {
       scale = 1;

@@ -11,17 +11,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:my_theme_style_example/main.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
+  testWidgets('Verify App loads', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const AppBootstrapper());
 
-    // Verify that platform version is retrieved.
-    expect(
-      find.byWidgetPredicate(
-        (Widget widget) => widget is Text &&
-                           widget.data!.startsWith('Running on:'),
-      ),
-      findsOneWidget,
-    );
+    // Verify that loading indicator is shown initially
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    // Pump and settle to allow async initialization to complete
+    // Note: In a real test environment, asset loading might need mocking or proper setup.
+    // If assets fail to load, the app should still initialize with defaults.
+    await tester.pumpAndSettle();
+
+    // Verify that the main app screen is shown
+    expect(find.text('MyThemeStyle Example'), findsOneWidget);
+    expect(find.text('Typography (en)'), findsOneWidget);
   });
 }

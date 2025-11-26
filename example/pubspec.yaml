@@ -25,6 +25,10 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
 
+  my_localizations:
+    git:
+      url: https://github.com/vraj0703/my_localizations.git
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -52,6 +56,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/jsons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,0 +1,21 @@
+{
+    "icons": {
+        "back": "arrow_back",
+        "close": "close",
+        "menu": "menu",
+        "search": "search",
+        "home": "home",
+        "settings": "settings",
+        "favorite": "favorite",
+        "share": "share",
+        "add": "add",
+        "delete": "delete",
+        "edit": "edit",
+        "info": "info",
+        "warning": "warning",
+        "error": "error",
+        "check": "check",
+        "moreVert": "more_vert",
+        "moreHoriz": "more_horiz"
+    }
+}

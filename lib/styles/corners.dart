@@ -7,9 +7,17 @@ class Corners {
   const Corners._(this._cornerConfigs);
 
   factory Corners.fromJson(Map<String, dynamic> json) {
-    final defaults = {'sm': 4.0, 'md': 16.0, 'lg': 32.0};
+    final defaults = {
+      'none': 0.0,
+      'extraSmall': 4.0,
+      'small': 8.0,
+      'medium': 12.0,
+      'large': 16.0,
+      'extraLarge': 28.0,
+      'full': 1000.0,
+    };
 
-    final cornersRaw = json['corners'];
+    final cornersRaw = json['radius'];
     final config = cornersRaw != null
         ? {...defaults, ...Map<String, dynamic>.from(cornersRaw as Map)}
         : defaults;
@@ -17,11 +25,13 @@ class Corners {
     return Corners._(config);
   }
 
-  double get sm => (_cornerConfigs['sm'] as num).toDouble();
-
-  double get md => (_cornerConfigs['md'] as num).toDouble();
-
-  double get lg => (_cornerConfigs['lg'] as num).toDouble();
+  double get none => (_cornerConfigs['none'] as num).toDouble();
+  double get extraSmall => (_cornerConfigs['extraSmall'] as num).toDouble();
+  double get small => (_cornerConfigs['small'] as num).toDouble();
+  double get medium => (_cornerConfigs['medium'] as num).toDouble();
+  double get large => (_cornerConfigs['large'] as num).toDouble();
+  double get extraLarge => (_cornerConfigs['extraLarge'] as num).toDouble();
+  double get full => (_cornerConfigs['full'] as num).toDouble();
 
   /// Optionally get any corner by key
   double corner(String key) {

@@ -9,39 +9,35 @@ class Sizes {
   factory Sizes.fromJson(Map<String, dynamic> json) {
     // Defaults for all sizes
     final defaults = {
-      'maxContentWidth1': 800.0,
-      'maxContentWidth2': 600.0,
-      'maxContentWidth3': 500.0,
-      'minAppSize': {'width': 380.0, 'height': 650.0},
+      'icon': {'sm': 18.0, 'md': 24.0, 'lg': 32.0, 'xl': 48.0},
+      'border': {'sm': 1.0, 'md': 2.0, 'lg': 4.0},
     };
 
-    final sizesRaw = json['sizes'];
-    // Merge defaults and config, ensure types
-    final config = sizesRaw != null
-        ? {...defaults, ...Map<String, dynamic>.from(sizesRaw as Map)}
-        : defaults;
+    // Merge defaults and config
+    // Note: Deep merge might be better but for now simple merge
+    final config = {...defaults};
+    if (json['icon'] != null) config['icon'] = json['icon'];
+    if (json['border'] != null) config['border'] = json['border'];
 
     return Sizes._(config);
   }
 
-  double get maxContentWidth1 =>
-      (_sizeConfigs['maxContentWidth1'] as num).toDouble();
+  double get iconSm => _getNested('icon', 'sm');
+  double get iconMd => _getNested('icon', 'md');
+  double get iconLg => _getNested('icon', 'lg');
+  double get iconXl => _getNested('icon', 'xl');
 
-  double get maxContentWidth2 =>
-      (_sizeConfigs['maxContentWidth2'] as num).toDouble();
+  double get borderSm => _getNested('border', 'sm');
+  double get borderMd => _getNested('border', 'md');
+  double get borderLg => _getNested('border', 'lg');
 
-  double get maxContentWidth3 =>
-      (_sizeConfigs['maxContentWidth3'] as num).toDouble();
-
-  Size get minAppSize {
-    final minSize = _sizeConfigs['minAppSize'];
-    if (minSize is Map) {
-      final width = (minSize['width'] as num).toDouble();
-      final height = (minSize['height'] as num).toDouble();
-      return Size(width, height);
+  double _getNested(String category, String key) {
+    final cat = _sizeConfigs[category];
+    if (cat is Map) {
+      final val = cat[key];
+      if (val is num) return val.toDouble();
     }
-    // fallback
-    return const Size(380, 650);
+    throw Exception('Size key "$category.$key" not found');
   }
 
   /// Optionally get any size by key

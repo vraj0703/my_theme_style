@@ -1,63 +1,315 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:flutter/services.dart';
+
+import 'package:my_theme_style/library.dart';
 import 'package:my_theme_style/my_theme_style.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AppBootstrapper());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class AppBootstrapper extends StatefulWidget {
+  const AppBootstrapper({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<AppBootstrapper> createState() => _AppBootstrapperState();
 }
 
-class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _myThemeStylePlugin = MyThemeStyle();
+class _AppBootstrapperState extends State<AppBootstrapper> {
+  bool _isInitialized = false;
+  String _currentLocale = 'en';
+  String _themeMode = 'light';
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    _initApp();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _myThemeStylePlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+  Future<void> _initApp() async {
+    // Load JSON configs
+    final colorsMap = await _loadJson('assets/jsons/app_colors.json');
+    final textsMap = await _loadJson('assets/jsons/texts.json');
+    final shadowsMap = await _loadJson('assets/jsons/shadows.json');
+    final cornersMap = await _loadJson('assets/jsons/corners.json');
+    final durationMap = await _loadJson('assets/jsons/duration.json');
+    final insetsMap = await _loadJson('assets/jsons/insets.json');
+    final sizesMap = await _loadJson('assets/jsons/sizes.json');
+    final iconsMap = await _loadJson('assets/jsons/icons.json');
+
+    // Initialize MyLocalizations
+    // MyLocalizations is optional now. We skip it for the example app to avoid dependency issues.
+    // final localeLogic = ...
+
+    await MyThemeStyle.initialize(
+      // localeLogic: localeLogic,
+      colorsMap: colorsMap,
+      textStylesMap: textsMap,
+      shadowsMap: shadowsMap,
+      cornersMap: cornersMap,
+      timesMap: durationMap,
+      insetsMap: insetsMap,
+      sizesMap: sizesMap,
+      iconsMap: iconsMap,
+    );
+
+    if (mounted) {
+      setState(() {
+        _isInitialized = true;
+      });
     }
+  }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
+  Future<void> _updateLocale(String locale) async {
     setState(() {
-      _platformVersion = platformVersion;
+      _isInitialized = false; // Show loading
+      _currentLocale = locale;
     });
+    await _initApp();
+  }
+
+  void _toggleTheme() {
+    setState(() {
+      _themeMode = _themeMode == 'light' ? 'dark' : 'light';
+    });
+  }
+
+  Future<Map<String, dynamic>> _loadJson(String path) async {
+    try {
+      final String response = await rootBundle.loadString(path);
+      return json.decode(response);
+    } catch (e) {
+      debugPrint('Error loading $path: $e');
+      return {};
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const MaterialApp(
+        home: Scaffold(body: Center(child: CircularProgressIndicator())),
+      );
+    }
+
+    final themeData = $style.themeData(theme: _themeMode);
+
     return MaterialApp(
+      title: 'MyThemeStyle Example',
+      theme: themeData,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('MyThemeStyle Example'),
+          actions: [
+            IconButton(
+              icon: Icon(
+                _currentLocale == 'en' ? Icons.language : Icons.translate,
+              ),
+              onPressed: () =>
+                  _updateLocale(_currentLocale == 'en' ? 'zh' : 'en'),
+              tooltip: 'Switch Locale (Current: $_currentLocale)',
+            ),
+            IconButton(
+              icon: Icon(
+                _themeMode == 'light' ? Icons.dark_mode : Icons.light_mode,
+              ),
+              onPressed: _toggleTheme,
+              tooltip: 'Toggle Theme',
+            ),
+          ],
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: ListView(
+          padding: EdgeInsets.all($insets.md),
+          children: [
+            _SectionHeader(title: 'Typography ($_currentLocale)'),
+            _TypographyShowcase(),
+            const SizedBox(height: 24),
+            const _SectionHeader(title: 'Colors'),
+            _ColorsShowcase(themeMode: _themeMode),
+            const SizedBox(height: 24),
+            const _SectionHeader(title: 'Icons'),
+            const _IconsShowcase(),
+            const SizedBox(height: 24),
+            const _SectionHeader(title: 'Shapes & Shadows'),
+            const _ShapesShadowsShowcase(),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  const _SectionHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: $textStyle.headlineSmall),
+        Divider(color: $colors.outlineVariantLight),
+        const SizedBox(height: 8),
+      ],
+    );
+  }
+}
+
+class _TypographyShowcase extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Display Large', style: $textStyle.displayLarge),
+        Text('Headline Medium', style: $textStyle.headlineMedium),
+        Text('Body Large', style: $textStyle.bodyLarge),
+        Text('Label Small', style: $textStyle.labelSmall),
+        const SizedBox(height: 8),
+        Text('Custom Font (Title):', style: $textStyle.titleMedium),
+        Text(
+          'Raleway Font',
+          style: $textStyle.titleFont.copyWith(fontSize: 20),
+        ),
+      ],
+    );
+  }
+}
+
+class _ColorsShowcase extends StatelessWidget {
+  final String themeMode;
+  const _ColorsShowcase({required this.themeMode});
+
+  @override
+  Widget build(BuildContext context) {
+    // Helper to get color based on current theme mode for display
+    Color c(String key) => $style.colors.color(themeMode, key);
+
+    return Wrap(
+      spacing: $insets.sm,
+      runSpacing: $insets.sm,
+      children: [
+        _ColorBox(name: 'Primary', color: c('primary')),
+        _ColorBox(name: 'Secondary', color: c('secondary')),
+        _ColorBox(name: 'Tertiary', color: c('tertiary')),
+        _ColorBox(name: 'Error', color: c('error')),
+        _ColorBox(name: 'Surface', color: c('surface')),
+        _ColorBox(name: 'Background', color: c('background')),
+      ],
+    );
+  }
+}
+
+class _IconsShowcase extends StatelessWidget {
+  const _IconsShowcase();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Column(
+          children: [
+            Icon(
+              $icons.home,
+              size: $sizes.iconLg,
+              color: $style.colors.primaryLight,
+            ),
+            Text('Home', style: $textStyle.labelSmall),
+          ],
+        ),
+        Column(
+          children: [
+            Icon(
+              $icons.settings,
+              size: $sizes.iconLg,
+              color: $style.colors.secondaryLight,
+            ),
+            Text('Settings', style: $textStyle.labelSmall),
+          ],
+        ),
+        Column(
+          children: [
+            Icon(
+              $icons.favorite,
+              size: $sizes.iconLg,
+              color: $style.colors.errorLight,
+            ),
+            Text('Favorite', style: $textStyle.labelSmall),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ShapesShadowsShowcase extends StatelessWidget {
+  const _ShapesShadowsShowcase();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Container(
+          width: 80,
+          height: 80,
+          decoration: BoxDecoration(
+            color: $style.colors.surfaceVariantLight,
+            borderRadius: BorderRadius.circular($corners.medium),
+            boxShadow: $shadows.level2,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'Md\nLvl2',
+            style: $textStyle.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Container(
+          width: 80,
+          height: 80,
+          decoration: BoxDecoration(
+            color: $style.colors.surfaceVariantLight,
+            borderRadius: BorderRadius.circular($corners.extraLarge),
+            boxShadow: $shadows.level4,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'XL\nLvl4',
+            style: $textStyle.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ColorBox extends StatelessWidget {
+  final String name;
+  final Color color;
+
+  const _ColorBox({required this.name, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular($corners.small),
+            border: Border.all(color: $style.colors.outlineLight),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(name, style: $textStyle.labelSmall),
+      ],
     );
   }
 }
