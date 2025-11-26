@@ -57,6 +57,9 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
       final iconsMap = await _loadJson(
         'packages/my_theme_style/assets/jsons/icons.json',
       );
+      final gradientsMap = await _loadJson(
+        'packages/my_theme_style/assets/jsons/gradients.json',
+      );
       print('Assets loaded.');
 
       print('Initializing MyThemeStyle...');
@@ -71,6 +74,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
         sizesMap: sizesMap,
         fontsMap: {}, // Pass empty map if fonts.json is not loaded
         iconsMap: iconsMap,
+        gradientsMap: gradientsMap,
       );
       print('MyThemeStyle initialized.');
 
@@ -158,6 +162,9 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
             const SizedBox(height: 24),
             const _SectionHeader(title: 'Shapes & Shadows'),
             const _ShapesShadowsShowcase(),
+            const SizedBox(height: 24),
+            const _SectionHeader(title: 'Gradients'),
+            const _GradientsShowcase(),
           ],
         ),
       ),
@@ -312,6 +319,48 @@ class _ShapesShadowsShowcase extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _GradientsShowcase extends StatelessWidget {
+  const _GradientsShowcase();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _GradientBox(name: 'Primary', gradient: $gradients.gradient('primary')),
+        _GradientBox(name: 'Surface', gradient: $gradients.gradient('surface')),
+        _GradientBox(name: 'Rainbow', gradient: $gradients.gradient('rainbow')),
+      ],
+    );
+  }
+}
+
+class _GradientBox extends StatelessWidget {
+  final String name;
+  final Gradient? gradient;
+
+  const _GradientBox({required this.name, required this.gradient});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 80,
+          height: 80,
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: BorderRadius.circular($corners.medium),
+            border: Border.all(color: $style.colors.outlineLight),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(name, style: $textStyle.labelSmall),
       ],
     );
   }

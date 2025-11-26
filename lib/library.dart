@@ -9,6 +9,8 @@ get $style => MyThemeStyle.appStyle;
 
 get $colors => MyThemeStyle.appStyle.colors;
 
+get $gradients => MyThemeStyle.appStyle.gradients;
+
 get $corners => MyThemeStyle.appStyle.corners;
 
 get $shadows => MyThemeStyle.appStyle.shadows;

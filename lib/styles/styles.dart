@@ -9,7 +9,10 @@ import 'texts.dart';
 import 'times.dart';
 import 'icons.dart';
 
+import 'gradients.dart';
+
 export 'colors.dart';
+export 'gradients.dart';
 
 @immutable
 class AppStyle {
@@ -17,6 +20,7 @@ class AppStyle {
   late final bool disableAnimations;
   late final bool highContrast;
   late final Map<String, dynamic> colorsMap;
+  late final Map<String, dynamic> gradientsMap;
   late final Map<String, dynamic> cornersMap;
   late final Map<String, dynamic> shadowsMap;
   late final Map<String, dynamic> insetsMap;
@@ -28,6 +32,9 @@ class AppStyle {
 
   /// The current theme colors for the app
   late final AppColors colors = AppColors.fromJson(colorsMap);
+
+  /// The current theme gradients for the app
+  late final AppGradients gradients = AppGradients.fromJson(gradientsMap);
 
   /// Rounded edge corner radii
   late final Corners corners = Corners.fromJson(cornersMap);
@@ -54,6 +61,7 @@ class AppStyle {
     this.disableAnimations = false,
     this.highContrast = false,
     this.colorsMap = const {},
+    this.gradientsMap = const {},
     this.cornersMap = const {},
     this.shadowsMap = const {},
     this.insetsMap = const {},
