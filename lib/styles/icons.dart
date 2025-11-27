@@ -56,12 +56,12 @@ class AppIcons {
   IconData _getIcon(String key, IconData fallback) {
     final name = _iconConfigs[key];
     if (name is String) {
-      return _iconMap[name] ?? fallback;
+      return iconMap[name] ?? fallback;
     }
     return fallback;
   }
 
-  static final Map<String, IconData> _iconMap = {
+  static final Map<String, IconData> iconMap = {
     'arrow_back': Icons.arrow_back,
     'close': Icons.close,
     'menu': Icons.menu,
