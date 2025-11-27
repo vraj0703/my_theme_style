@@ -12,7 +12,7 @@ void main() {
       final corners = Corners.fromJson({
         "radius": {"medium": 12.0},
       });
-      expect(corners.medium, 12.0);
+      expect(corners.md, 12.0);
     });
   });
 

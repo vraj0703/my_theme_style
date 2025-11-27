@@ -294,7 +294,7 @@ class _ShapesShadowsShowcase extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             color: $style.colors.surfaceVariantLight,
-            borderRadius: BorderRadius.circular($corners.medium),
+            borderRadius: BorderRadius.circular($corners.md),
             boxShadow: $shadows.level2,
           ),
           alignment: Alignment.center,
@@ -309,7 +309,7 @@ class _ShapesShadowsShowcase extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             color: $style.colors.surfaceVariantLight,
-            borderRadius: BorderRadius.circular($corners.extraLarge),
+            borderRadius: BorderRadius.circular($corners.exlg),
             boxShadow: $shadows.level4,
           ),
           alignment: Alignment.center,
@@ -355,7 +355,7 @@ class _GradientBox extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(
             gradient: gradient,
-            borderRadius: BorderRadius.circular($corners.medium),
+            borderRadius: BorderRadius.circular($corners.md),
             border: Border.all(color: $style.colors.outlineLight),
           ),
         ),
@@ -381,7 +381,7 @@ class _ColorBox extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular($corners.small),
+            borderRadius: BorderRadius.circular($corners.sm),
             border: Border.all(color: $style.colors.outlineLight),
           ),
         ),

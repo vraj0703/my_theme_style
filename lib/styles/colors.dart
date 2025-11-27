@@ -178,6 +178,8 @@ class AppColors {
 
   Color get black => _getBaseColor('black', fallback: '#000000');
 
+  Color get offWhite => _getBaseColor('offWhite', fallback: '#FAF9F6');
+
   Color get transparent => _getBaseColor('transparent', fallback: '#00000000');
 
   /// Get a full color scheme (returns MaterialColorScheme)
