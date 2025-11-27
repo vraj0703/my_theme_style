@@ -11,9 +11,9 @@ class AppColors {
 
   factory AppColors.fromJson(Map<String, dynamic> data) {
     final config = Map<String, dynamic>.from(data as Map);
-    final schemes = data['schemes'] ?? {};
-    final base = data['base'] ?? {};
-    final custom = data['custom'] ?? {};
+    final schemes = config['schemes'] ?? {};
+    final base = config['base'] ?? {};
+    final custom = config['custom'] ?? {};
     return AppColors._(schemes, base, custom);
   }
 

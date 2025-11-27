@@ -89,7 +89,7 @@ class Shadows {
       final blur = (cfg['blur'] as num?)?.toDouble() ?? 0.0;
       final spread = (cfg['spread'] as num?)?.toDouble() ?? 0.0;
 
-      final color = _parseColor(colorHex).withOpacity(opacity);
+      final color = _parseColor(colorHex).withValues(alpha: opacity);
 
       return [
         BoxShadow(
