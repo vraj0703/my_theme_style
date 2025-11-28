@@ -1,6 +1,7 @@
 library;
 
 import 'package:my_theme_style/my_theme_style.dart';
+import 'package:my_theme_style/styles/icons.dart';
 
 export 'package:my_theme_style/styles/colors.dart';
 export 'package:my_theme_style/styles/styles.dart';
@@ -23,4 +24,4 @@ get $durations => MyThemeStyle.appStyle.times;
 
 get $sizes => MyThemeStyle.appStyle.sizes;
 
-get $icons => MyThemeStyle.appStyle.icons;
+get $icons => AppIcons;

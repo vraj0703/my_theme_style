@@ -7,7 +7,6 @@ import 'shadows.dart';
 import 'sizes.dart';
 import 'texts.dart';
 import 'times.dart';
-import 'icons.dart';
 
 import 'gradients.dart';
 
@@ -52,9 +51,6 @@ class AppStyle {
 
   /// Shared sizes
   late final Sizes sizes = Sizes.fromJson(sizesMap);
-
-  /// App Icons
-  late final AppIcons icons = AppIcons.fromJson(iconsMap);
 
   AppStyle({
     Size? screenSize,
