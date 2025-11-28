@@ -9,5 +9,14 @@
     "sm": 1.0,
     "md": 2.0,
     "lg": 4.0
+  },
+  "maxContent": {
+    "width1": 800.0,
+    "width2": 600.0,
+    "width3": 500.0
+  },
+  "minAppSize": {
+    "width": 380.0,
+    "height": 650.0
   }
 }
