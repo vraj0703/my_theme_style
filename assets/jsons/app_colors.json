@@ -69,6 +69,7 @@
     "white": "#FFFFFF",
     "black": "#000000",
     "offWhite": "#FAF9F6",
+    "greyDark": "#A9A9A9",
     "transparent": "#00000000"
   },
   "custom": {
