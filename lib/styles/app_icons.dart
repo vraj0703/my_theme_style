@@ -1,32 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:my_theme_style/library.dart';
 
-import 'icons.dart';
+enum AppIcons {
+  home,
+  settings,
+  close,
+  close_large,
+  collection,
+  download,
+  expand,
+  fullscreen,
+  fullscreen_exit,
+  info,
+  menu,
+  next_large,
+  north,
+  prev,
+  reset_location,
+  search,
+  share_android,
+  share_ios,
+  timeline,
+  wallpaper,
+  zoom_in,
+  zoom_out;
 
-class AppIcon extends StatelessWidget {
-  const AppIcon(this.icon, {super.key, this.size = 22, this.color});
+  static final Map<AppIcons, IconData> iconMap = {
+    home: Icons.home,
+    settings: Icons.settings,
+    prev: Icons.arrow_back,
+    close: Icons.close,
+    menu: Icons.menu,
+    search: Icons.search,
+    info: Icons.info,
+    close_large: Icons.close,
+    collection: Icons.grid_on_outlined,
+    download: Icons.download,
+    expand: Icons.expand_more,
+    fullscreen: Icons.fullscreen,
+    fullscreen_exit: Icons.fullscreen_exit,
+    next_large: Icons.arrow_back,
+    north: Icons.north,
+    reset_location: Icons.north,
+    share_android: Icons.share,
+    share_ios: Icons.ios_share,
+    timeline: Icons.show_chart,
+    wallpaper: Icons.grid_on_outlined,
+    zoom_in: Icons.zoom_in,
+    zoom_out: Icons.zoom_out,
+  };
 
-  final AppIcons icon;
-  final double size;
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    // eg icon name in _common/icons folder is 'icon-close-large.png', 'icon-close.png'
-    String i = icon.name.toLowerCase().replaceAll('_', '-');
-    String path = 'assets/images/_common/icons/icon-$i.png';
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Center(
-        child: Image.asset(
-          path,
-          width: size,
-          height: size,
-          color: color ?? $colors.offWhite,
-          filterQuality: FilterQuality.high,
-        ),
-      ),
-    );
-  }
+  static IconData icon(AppIcons icon) => iconMap[icon]!;
 }

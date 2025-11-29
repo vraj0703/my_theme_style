@@ -72,7 +72,8 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
         timesMap: durationMap,
         insetsMap: insetsMap,
         sizesMap: sizesMap,
-        fontsMap: {}, // Pass empty map if fonts.json is not loaded
+        // Pass empty map if fonts.json is not loaded
+        fontsMap: {},
         iconsMap: iconsMap,
         gradientsMap: gradientsMap,
       );
@@ -174,6 +175,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
 
 class _SectionHeader extends StatelessWidget {
   final String title;
+
   const _SectionHeader({required this.title});
 
   @override
@@ -212,6 +214,7 @@ class _TypographyShowcase extends StatelessWidget {
 
 class _ColorsShowcase extends StatelessWidget {
   final String themeMode;
+
   const _ColorsShowcase({required this.themeMode});
 
   @override
@@ -249,7 +252,7 @@ class _IconsShowcase extends StatelessWidget {
         Column(
           children: [
             Icon(
-              $icons.home,
+              $icons.icon($icons.home),
               size: $sizes.iconLg,
               color: $style.colors.primaryLight,
             ),
@@ -259,7 +262,7 @@ class _IconsShowcase extends StatelessWidget {
         Column(
           children: [
             Icon(
-              $icons.settings,
+              $icons.icon($icons.settings),
               size: $sizes.iconLg,
               color: $style.colors.secondaryLight,
             ),
@@ -269,7 +272,7 @@ class _IconsShowcase extends StatelessWidget {
         Column(
           children: [
             Icon(
-              $icons.favorite,
+              $icons.icon($icons.menu),
               size: $sizes.iconLg,
               color: $style.colors.errorLight,
             ),
