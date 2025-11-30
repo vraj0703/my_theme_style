@@ -28,8 +28,7 @@ class MyThemeStyle {
     Map<String, dynamic> textStylesMap = const {},
     Map<String, dynamic> fontsMap = const {},
     Map<String, dynamic> timesMap = const {},
-    Map<String, dynamic> sizesMap = const {},
-    Map<String, dynamic> iconsMap = const {},
+    Map<String, dynamic> sizesMap = const {}
   }) async {
     _localeName = localeName;
     _appStyle = AppStyle(
@@ -44,8 +43,7 @@ class MyThemeStyle {
       textStylesMap: textStylesMap,
       timesMap: timesMap,
       sizesMap: sizesMap,
-      fontsMap: fontsMap,
-      iconsMap: iconsMap,
+      fontsMap: fontsMap
     );
   }
 

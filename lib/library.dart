@@ -2,25 +2,32 @@ library;
 
 import 'package:my_theme_style/my_theme_style.dart';
 import 'package:my_theme_style/styles/app_icons.dart';
+import 'package:my_theme_style/styles/corners.dart';
+import 'package:my_theme_style/styles/insets.dart';
+import 'package:my_theme_style/styles/shadows.dart';
+import 'package:my_theme_style/styles/sizes.dart';
+import 'package:my_theme_style/styles/styles.dart';
+import 'package:my_theme_style/styles/texts.dart';
+import 'package:my_theme_style/styles/times.dart';
 export 'package:my_theme_style/styles/colors.dart';
 export 'package:my_theme_style/styles/styles.dart';
 
-get $style => MyThemeStyle.appStyle;
+AppStyle get $style => MyThemeStyle.appStyle;
 
-get $colors => MyThemeStyle.appStyle.colors;
+AppColors get $colors => MyThemeStyle.appStyle.colors;
 
-get $gradients => MyThemeStyle.appStyle.gradients;
+AppGradients get $gradients => MyThemeStyle.appStyle.gradients;
 
-get $corners => MyThemeStyle.appStyle.corners;
+Corners get $corners => MyThemeStyle.appStyle.corners;
 
-get $shadows => MyThemeStyle.appStyle.shadows;
+Shadows get $shadows => MyThemeStyle.appStyle.shadows;
 
-get $insets => MyThemeStyle.appStyle.insets;
+Insets get $insets => MyThemeStyle.appStyle.insets;
 
-get $textStyle => MyThemeStyle.appStyle.text;
+Texts get $textStyle => MyThemeStyle.appStyle.text;
 
-get $durations => MyThemeStyle.appStyle.times;
+Times get $durations => MyThemeStyle.appStyle.times;
 
-get $sizes => MyThemeStyle.appStyle.sizes;
+Sizes get $sizes => MyThemeStyle.appStyle.sizes;
 
 typedef $icons = AppIcons;

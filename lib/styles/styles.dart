@@ -27,7 +27,6 @@ class AppStyle {
   late final Map<String, dynamic> timesMap;
   late final Map<String, dynamic> sizesMap;
   late final Map<String, dynamic> fontsMap;
-  late final Map<String, dynamic> iconsMap;
 
   /// The current theme colors for the app
   late final AppColors colors = AppColors.fromJson(colorsMap);
@@ -64,8 +63,7 @@ class AppStyle {
     this.textStylesMap = const {},
     this.timesMap = const {},
     this.sizesMap = const {},
-    this.fontsMap = const {},
-    this.iconsMap = const {},
+    this.fontsMap = const {}
   }) {
     if (screenSize == null) {
       scale = 1;
