@@ -37,7 +37,7 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
         'packages/my_theme_style/assets/jsons/app_colors.json',
       );
       final textsMap = await _loadJson(
-        'packages/my_theme_style/assets/jsons/texts.json',
+        'packages/my_theme_style/assets/jsons/text_styles.json',
       );
       final shadowsMap = await _loadJson(
         'packages/my_theme_style/assets/jsons/shadows.json',
@@ -46,16 +46,13 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
         'packages/my_theme_style/assets/jsons/corners.json',
       );
       final durationMap = await _loadJson(
-        'packages/my_theme_style/assets/jsons/duration.json',
+        'packages/my_theme_style/assets/jsons/durations.json',
       );
       final insetsMap = await _loadJson(
         'packages/my_theme_style/assets/jsons/insets.json',
       );
       final sizesMap = await _loadJson(
         'packages/my_theme_style/assets/jsons/sizes.json',
-      );
-      final iconsMap = await _loadJson(
-        'packages/my_theme_style/assets/jsons/icons.json',
       );
       final gradientsMap = await _loadJson(
         'packages/my_theme_style/assets/jsons/gradients.json',
