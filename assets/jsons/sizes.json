@@ -17,6 +17,7 @@
   },
   "minAppSize": {
     "width": 380.0,
-    "height": 650.0
+    "height": 650.0,
+    "size": 380.0
   }
 }
