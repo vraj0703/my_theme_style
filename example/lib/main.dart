@@ -74,7 +74,6 @@ class _AppBootstrapperState extends State<AppBootstrapper> {
         sizesMap: sizesMap,
         // Pass empty map if fonts.json is not loaded
         fontsMap: {},
-        iconsMap: iconsMap,
         gradientsMap: gradientsMap,
       );
       print('MyThemeStyle initialized.');
