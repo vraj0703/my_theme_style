@@ -26,6 +26,7 @@ class Times {
       'extraLong2': 800,
       'extraLong3': 900,
       'extraLong4': 1000,
+      'pageTransition': 1000,
     };
 
     final easingDefaults = {
@@ -55,33 +56,53 @@ class Times {
   }
 
   Duration get short1 => (_durationConfigs['short1'] as int).animateMs;
+
   Duration get short2 => (_durationConfigs['short2'] as int).animateMs;
+
   Duration get short3 => (_durationConfigs['short3'] as int).animateMs;
+
   Duration get short4 => (_durationConfigs['short4'] as int).animateMs;
 
   Duration get medium1 => (_durationConfigs['medium1'] as int).animateMs;
+
   Duration get medium2 => (_durationConfigs['medium2'] as int).animateMs;
+
   Duration get medium3 => (_durationConfigs['medium3'] as int).animateMs;
+
   Duration get medium4 => (_durationConfigs['medium4'] as int).animateMs;
 
   Duration get long1 => (_durationConfigs['long1'] as int).animateMs;
+
   Duration get long2 => (_durationConfigs['long2'] as int).animateMs;
+
   Duration get long3 => (_durationConfigs['long3'] as int).animateMs;
+
   Duration get long4 => (_durationConfigs['long4'] as int).animateMs;
 
   Duration get extraLong1 => (_durationConfigs['extraLong1'] as int).animateMs;
+
   Duration get extraLong2 => (_durationConfigs['extraLong2'] as int).animateMs;
+
   Duration get extraLong3 => (_durationConfigs['extraLong3'] as int).animateMs;
+
   Duration get extraLong4 => (_durationConfigs['extraLong4'] as int).animateMs;
 
+  Duration get pageTransition =>
+      (_durationConfigs['extraLong4'] as int).animateMs;
+
   Curve get standard => _parseCurve(_easingConfigs['standard']);
+
   Curve get standardAccelerate =>
       _parseCurve(_easingConfigs['standardAccelerate']);
+
   Curve get standardDecelerate =>
       _parseCurve(_easingConfigs['standardDecelerate']);
+
   Curve get emphasized => _parseCurve(_easingConfigs['emphasized']);
+
   Curve get emphasizedAccelerate =>
       _parseCurve(_easingConfigs['emphasizedAccelerate']);
+
   Curve get emphasizedDecelerate =>
       _parseCurve(_easingConfigs['emphasizedDecelerate']);
 
