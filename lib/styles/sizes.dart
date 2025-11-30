@@ -12,7 +12,7 @@ class Sizes {
       'icon': {'sm': 18.0, 'md': 24.0, 'lg': 32.0, 'xl': 48.0},
       'border': {'sm': 1.0, 'md': 2.0, 'lg': 4.0},
       'maxContent': {'width1': 800.0, 'width2': 600.0, 'width3': 500.0},
-      'minAppSize': {'width': 380.0, 'height': 650.0, 'size': 380.0},
+      'minAppSize': {'width': 380.0, 'height': 650.0},
     };
 
     // Deep merge the JSON config over the defaults.
@@ -22,21 +22,30 @@ class Sizes {
   }
 
   double get iconSm => _getNested('icon', 'sm');
+
   double get iconMd => _getNested('icon', 'md');
+
   double get iconLg => _getNested('icon', 'lg');
+
   double get iconXl => _getNested('icon', 'xl');
 
   double get borderSm => _getNested('border', 'sm');
+
   double get borderMd => _getNested('border', 'md');
+
   double get borderLg => _getNested('border', 'lg');
 
   double get maxContentWidth1 => _getNested('maxContent', 'width1');
+
   double get maxContentWidth2 => _getNested('maxContent', 'width2');
+
   double get maxContentWidth3 => _getNested('maxContent', 'width3');
 
   double get minAppWidth => _getNested('minAppSize', 'width');
+
   double get minAppHeight => _getNested('minAppSize', 'height');
-  double get minAppSize => _getNested('minAppSize', 'size');
+
+  Size get minAppSize => Size(minAppWidth, minAppHeight);
 
   double _getNested(String category, String key) {
     final cat = _sizeConfigs[category];
