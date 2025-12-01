@@ -44,7 +44,7 @@ class AppColors {
     final palette = _get(scheme, paletteKey);
     if (palette is Map) {
       return palette.map(
-        (k, v) => MapEntry(k.toString(), _parseColor(v.toString())),
+            (k, v) => MapEntry(k.toString(), _parseColor(v.toString())),
       );
     }
     throw Exception('Palette key "$paletteKey" not found in scheme "$scheme"');
@@ -182,6 +182,8 @@ class AppColors {
 
   Color get greyDark => _getBaseColor('greyDark', fallback: '#A9A9A9');
 
+  Color get greyLight => _getBaseColor('greyLight', fallback: '#A9A9A9');
+
   Color get transparent => _getBaseColor('transparent', fallback: '#00000000');
 
   /// Get a full color scheme (returns MaterialColorScheme)
@@ -239,8 +241,8 @@ class AppColors {
   /// Get value from scheme ('light' or 'dark'), return hex string or fallback
   dynamic _get(String scheme, String key) =>
       (_schemeConfigs[scheme] != null && _schemeConfigs[scheme][key] != null)
-      ? _schemeConfigs[scheme][key]
-      : null;
+          ? _schemeConfigs[scheme][key]
+          : null;
 
   /// Looks up a color from the top-level of the map.
   Color _getBaseColor(String key, {required String fallback}) {
