@@ -22,6 +22,7 @@ enum AppIcons {
   timeline,
   wallpaper,
   keyboard,
+  mic,
   zoom_in,
   zoom_out;
 
@@ -49,6 +50,7 @@ enum AppIcons {
     zoom_in: Icons.zoom_in,
     zoom_out: Icons.zoom_out,
     keyboard: Icons.keyboard,
+    mic: Icons.mic,
   };
 
   static IconData icon(AppIcons icon) => iconMap[icon]!;

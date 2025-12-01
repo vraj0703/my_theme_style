@@ -11,19 +11,14 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // eg icon name in _common/icons folder is 'icon-close-large.png', 'icon-close.png'
-    String i = icon.name.toLowerCase().replaceAll('_', '-');
-    String path = 'assets/images/_common/icons/icon-$i.png';
     return SizedBox(
       width: size,
       height: size,
       child: Center(
-        child: Image.asset(
-          path,
-          width: size,
-          height: size,
+        child: Icon(
+          AppIcons.icon(icon),
+          size: size,
           color: color ?? $colors.offWhite,
-          filterQuality: FilterQuality.high,
         ),
       ),
     );
