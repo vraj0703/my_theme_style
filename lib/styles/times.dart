@@ -27,7 +27,6 @@ class Times {
       'extraLong3': 900,
       'extraLong4': 1000,
       'pageTransition': 1000,
-      'scrollCooldownMs': 300,
     };
 
     final easingDefaults = {
@@ -87,8 +86,6 @@ class Times {
   Duration get extraLong3 => (_durationConfigs['extraLong3'] as int).animateMs;
 
   Duration get extraLong4 => (_durationConfigs['extraLong4'] as int).animateMs;
-
-  int get scrollCooldownMs => (_durationConfigs['scrollCooldownMs'] as int);
 
   Duration get pageTransition =>
       (_durationConfigs['extraLong4'] as int).animateMs;

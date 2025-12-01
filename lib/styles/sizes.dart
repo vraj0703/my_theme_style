@@ -13,6 +13,7 @@ class Sizes {
       'border': {'sm': 1.0, 'md': 2.0, 'lg': 4.0},
       'maxContent': {'width1': 800.0, 'width2': 600.0, 'width3': 500.0},
       'minAppSize': {'width': 380.0, 'height': 650.0},
+      'snackbar': {'height': 60.0},
     };
 
     // Deep merge the JSON config over the defaults.
@@ -46,6 +47,8 @@ class Sizes {
   double get minAppHeight => _getNested('minAppSize', 'height');
 
   Size get minAppSize => Size(minAppWidth, minAppHeight);
+
+  double get snackbarHeight => _getNested('snackbar', 'height');
 
   double _getNested(String category, String key) {
     final cat = _sizeConfigs[category];
