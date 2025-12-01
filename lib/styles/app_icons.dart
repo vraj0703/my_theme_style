@@ -21,6 +21,7 @@ enum AppIcons {
   share_ios,
   timeline,
   wallpaper,
+  keyboard,
   zoom_in,
   zoom_out;
 
@@ -47,6 +48,7 @@ enum AppIcons {
     wallpaper: Icons.grid_on_outlined,
     zoom_in: Icons.zoom_in,
     zoom_out: Icons.zoom_out,
+    keyboard: Icons.keyboard,
   };
 
   static IconData icon(AppIcons icon) => iconMap[icon]!;
