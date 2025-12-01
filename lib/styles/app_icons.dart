@@ -6,6 +6,7 @@ enum AppIcons {
   close,
   close_large,
   collection,
+  camera,
   download,
   expand,
   fullscreen,
@@ -51,6 +52,7 @@ enum AppIcons {
     zoom_out: Icons.zoom_out,
     keyboard: Icons.keyboard,
     mic: Icons.mic,
+    camera: Icons.camera,
   };
 
   static IconData icon(AppIcons icon) => iconMap[icon]!;
