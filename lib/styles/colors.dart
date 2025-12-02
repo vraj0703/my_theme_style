@@ -186,6 +186,12 @@ class AppColors {
 
   Color get blue => _getBaseColor('blue', fallback: '#A9A9A9');
 
+  Color get red => _getBaseColor('red', fallback: '#FF0000');
+
+  Color get orange => _getBaseColor('orange', fallback: '#FFA500');
+
+  Color get green => _getBaseColor('green', fallback: '#008000');
+
   Color get transparent => _getBaseColor('transparent', fallback: '#00000000');
 
   /// Get a full color scheme (returns MaterialColorScheme)
