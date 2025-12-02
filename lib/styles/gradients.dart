@@ -11,6 +11,10 @@ class AppGradients {
     return AppGradients(json);
   }
 
+  Gradient? get primary => gradient('primary');
+
+  Gradient? get surface => gradient('surface');
+
   Gradient? gradient(String key) {
     final theme = MyThemeStyle.currentTheme;
     final config = _config[key];
@@ -104,9 +108,8 @@ class AppGradients {
           center:
               _parseAlignment(config['center'] as String?) ?? Alignment.center,
           startAngle: (config['startAngle'] as num?)?.toDouble() ?? 0.0,
-          endAngle:
-              (config['endAngle'] as num?)?.toDouble() ??
-              6.28318530718, // 2 * pi
+          endAngle: (config['endAngle'] as num?)?.toDouble() ?? 6.28318530718,
+          // 2 * pi
           tileMode: tileMode,
         );
       default:
