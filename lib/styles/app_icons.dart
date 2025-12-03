@@ -25,6 +25,7 @@ enum AppIcons {
   keyboard,
   mic,
   lock,
+  play,
   zoom_in,
   zoom_out;
 
@@ -55,6 +56,7 @@ enum AppIcons {
     mic: Icons.mic,
     camera: Icons.camera,
     lock: Icons.lock,
+    play: Icons.play_arrow_rounded,
   };
 
   static IconData icon(AppIcons icon) => iconMap[icon]!;
